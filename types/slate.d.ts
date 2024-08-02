@@ -1,6 +1,9 @@
 import { BaseEditor, BaseElement } from "slate"
 import { ReactEditor } from "slate-react"
 import { HistoryEditor } from "slate-history"
+import { StyleEditor } from "@/plugins/slate-style"
+import { CommandEditor } from "@/plugins/slate-command"
+import { HotkeyEditor } from "@/plugins/slate-hotkey"
 
 export type CustomText = {
   text: string,
@@ -24,6 +27,8 @@ export type CommonElement = {
 } & BaseElement
 
 export type ParagraphElement = { type: 'paragraph' } & CommonElement
+
+export type InlineElement = { type: 'inline' } & CommonElement
 
 export type QuoteBlockElement = { type: 'quote-block' } & CommonElement
 
@@ -53,6 +58,7 @@ export type CodeLineElement = { type: 'code-line' } & CommonElement
 
 export type CustomElement =
   | ParagraphElement
+  | InlineElement
   | QuoteBlockElement
   | BulletedListElement
   | NumberedListElement
@@ -67,7 +73,13 @@ export type CustomElement =
   | CodeBlockElement
   | CodeLineElement
 
-export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
+export type CustomEditor =
+  & BaseEditor
+  & ReactEditor
+  & HistoryEditor
+  & StyleEditor
+  & CommandEditor
+  & HotkeyEditor
 
 declare module "slate" {
   interface CustomTypes {
