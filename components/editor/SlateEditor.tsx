@@ -6,12 +6,15 @@ import { withHistory } from "slate-history"
 import { withStyle } from "@/plugins/slate-style"
 import { withCommand } from "@/plugins/slate-command"
 import { withHotkey } from "@/plugins/slate-hotkey"
+import { withCollab, CollabOptions } from "@/plugins/slate-collab"
 import { initialEditorValue } from "@/lib/slate"
 import SlateElement from "./SlateElement"
 import SlateLeaf from "./SlateLeaf"
 
-export default function SlateEditor() {
-  const editor = useMemo(() => withHotkey(withCommand(withStyle(withHistory(withReact(createEditor()))))), [])
+export default function SlateEditor({ docId, editorId, role }: Readonly<CollabOptions>) {
+  const editor = useMemo(() => withCollab(withHotkey(withCommand(withStyle(withHistory(withReact(createEditor()))))),
+    { docId, editorId, role }), [role]
+  )
   const renderElement = useCallback((props: RenderElementProps) => <SlateElement {...props} />, [])
   const renderLeaf = useCallback((props: RenderLeafProps) => <SlateLeaf {...props} />, [])
   return (<Slate editor={editor} initialValue={initialEditorValue}>

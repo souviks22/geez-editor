@@ -4,6 +4,7 @@ import { HistoryEditor } from "slate-history"
 import { StyleEditor } from "@/plugins/slate-style"
 import { CommandEditor } from "@/plugins/slate-command"
 import { HotkeyEditor } from "@/plugins/slate-hotkey"
+import { CollabEditor } from "@/plugins/slate-collab"
 
 export type CustomText = {
   text: string,
@@ -80,6 +81,7 @@ export type CustomEditor =
   & StyleEditor
   & CommandEditor
   & HotkeyEditor
+  & CollabEditor
 
 declare module "slate" {
   interface CustomTypes {
