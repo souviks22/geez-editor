@@ -19,7 +19,7 @@ export default function SlateEditor({ docId, editorId, role }: Readonly<CollabOp
   const renderLeaf = useCallback((props: RenderLeafProps) => <SlateLeaf {...props} />, [])
   return (<Slate editor={editor} initialValue={initialEditorValue}>
     <Editable
-      className="min-h-screen bg-white p-20 outline-none"
+      className="w-[794px] min-h-[1123px] bg-white px-24 py-20 outline-none"
       renderElement={renderElement}
       renderLeaf={renderLeaf}
       onKeyDown={editor.hotkeyHandler}
