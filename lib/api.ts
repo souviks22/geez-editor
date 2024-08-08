@@ -1,24 +1,15 @@
-"use server"
-import { getSession } from "next-auth/react"
-
-type ApiResponse = { message: string, data: any }
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
-type RequestBody = object | null
+type APIResponse = { message: string, data: any }
+type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
 const api = process.env.BACKEND_DOMAIN
 
-export const apiRequest = async (url: string, method: HttpMethod = 'GET', body: RequestBody = null) => {
-  const session = await getSession()
+export const request = async ({ url, method = 'GET', body }: Readonly<{ url: string, method?: HTTPMethod, body?: {} }>) => {
   const response = await fetch(`${api}${url}`, {
     method,
     body: body ? JSON.stringify(body) : null,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${session?.user.apiToken}`
-    }
+    headers: { 'Content-Type': 'application/json' }
   })
   const { success, message, data } = await response.json()
   if (!success) throw new Error(message)
-  const apiResponse: ApiResponse = { message, data }
-  return apiResponse
+  return { message, data } as APIResponse
 }
