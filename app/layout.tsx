@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Roboto } from "next/font/google"
 
 import Session from "@/components/wrapper/Session"
+import Navbar from "@/components/navigation/Navbar"
 import "./globals.css"
 
 const roboto = Roboto({ subsets: ["latin"], weight: '400' })
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (<html lang='en'>
     <Session>
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <Navbar />
+        {children}
+      </body>
     </Session>
   </html>)
 }
