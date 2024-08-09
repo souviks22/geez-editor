@@ -10,8 +10,18 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-home": "radial-gradient(ellipse at bottom, var(--tw-gradient-stops))"
+      },
+      colors: {
+        "aqua-green": "#00CC99",
+        "crystal-blue": "#6600FF"
+      },
+      keyframes: {
+        load: Object.fromEntries(Array.from(Array(100).keys()).map(x => [`${x}%`, { width: `${x}%` }]))
+      },
+      animation: {
+        'loading-bar': 'load 500ms linear infinite',
       },
     },
   },
