@@ -2,16 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function Home() {
-  return (<main className='flex justify-evenly items-center min-h-screen'>
-    <section className='absolute -z-10 w-full'>
-      <Image
-        src={'/home.svg'}
-        alt='Home'
-        width={100}
-        height={100}
-        layout='responsive'
-      />
-    </section>
+  return (<main className='flex justify-evenly items-center min-h-screen bg-gradient-home from-aqua-green from-20% to-crystal-blue backdrop-blur'>
     <div className='text-center'>
       <div className='mb-10'>
         <h1 className='text-9xl mb-10'>Geez</h1>
