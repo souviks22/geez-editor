@@ -2,10 +2,14 @@
 import Image from "next/image"
 import { signIn } from "next-auth/react"
 
-export default function Provider({ name, icon }: Readonly<{ name: string, icon: string }>) {
+export default function Provider({ name, icon, onClick = () => { } }: Readonly<{ name: string, icon: string, onClick?: () => void }>) {
+  const signInHandler = () => {
+    onClick()
+    signIn(name.toLowerCase())
+  }
   return (<div
     className='flex justify-center items-center rounded-full bg-white cursor-pointer hover:shadow'
-    onClick={() => signIn(name.toLowerCase())}
+    onClick={signInHandler}
   >
     <section className='p-2'>
       <Image
