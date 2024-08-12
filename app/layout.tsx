@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google"
 
 import Session from "@/components/wrapper/Session"
 import Navbar from "@/components/navigation/Navbar"
+import AuthProvider from "@/context/auth-context"
 import "./globals.css"
 
 const roboto = Roboto({ subsets: ["latin"], weight: '400' })
@@ -15,10 +16,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (<html lang='en'>
     <Session>
-      <body className={roboto.className}>
-        <Navbar />
-        {children}
-      </body>
+      <AuthProvider>
+        <body className={roboto.className}>
+          <Navbar />
+          {children}
+        </body>
+      </AuthProvider>
     </Session>
   </html>)
 }
