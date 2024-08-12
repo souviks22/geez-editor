@@ -1,11 +1,14 @@
 "use client"
-import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { signIn } from "next-auth/react"
+import Image from "next/image"
 
 export default function Provider({ name, icon, onClick = () => { } }: Readonly<{ name: string, icon: string, onClick?: () => void }>) {
+  const path = usePathname()
   const signInHandler = () => {
     onClick()
     signIn(name.toLowerCase())
+    localStorage.setItem(process.env.REDIRECT_KEY as string, path)
   }
   return (<div
     className='flex justify-center items-center rounded-full bg-white cursor-pointer hover:shadow'

@@ -1,14 +1,15 @@
 "use client"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useSession, signOut } from "next-auth/react"
+import { authContext } from "@/context/auth-context"
 import Image from "next/image"
 import Protect from "../auth/Protect"
 
 export default function Navbar() {
   const { data: session } = useSession()
-  const [auth, setAuth] = useState<boolean>(false)
   const [menu, setMenu] = useState<boolean>(false)
-  return (<div className={`flex justify-end fixed z-10 w-full px-28 py-2 ${!auth && 'backdrop-blur'}`}>
+  const { active, toggleFallback } = useContext(authContext)
+  return (<div className={`flex justify-end fixed z-10 w-full px-28 py-2 ${!active && 'backdrop-blur'}`}>
     {session
       ?
       <section className='relative cursor-pointer' onClick={() => setMenu(menu => !menu)}>
@@ -28,10 +29,10 @@ export default function Navbar() {
         }
       </section>
       :
-      <p onClick={() => setAuth(true)} className='bg-sky-50 hover:bg-sky-100 px-5 py-1 m-5 cursor-pointer transition-colors duration-200 rounded shadow'>
+      <p onClick={toggleFallback} className='bg-sky-50 hover:bg-sky-100 px-5 py-1 m-5 cursor-pointer transition-colors duration-200 rounded shadow'>
         Sign In
       </p>
     }
-    {auth && <Protect onClick={() => setAuth(false)} />}
+    {active && <Protect onClick={toggleFallback} />}
   </div>)
 }
