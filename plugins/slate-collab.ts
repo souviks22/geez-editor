@@ -12,11 +12,9 @@ export type CollabEditor = {
   operationHandler: () => void
 }
 
-export type CollabOptions = {
-  docId: string,
-  editorId: string,
-  role: 'public' | 'private'
-}
+export type CollabDoc = { docId: string, editorId: string }
+export type CollabRole = 'owner' | 'viewer' | 'editor'
+export type CollabOptions = { role: CollabRole } & CollabDoc
 
 export const withCollab = (editor: Editor, { docId, editorId, role }: Readonly<CollabOptions>) => {
   const websocketURL = process.env.BACKEND_DOMAIN + `?docId=${docId}&role=${role}`

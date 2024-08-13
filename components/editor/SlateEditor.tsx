@@ -1,5 +1,5 @@
 "use client"
-import { useMemo, useCallback } from "react"
+import { useMemo, useCallback, useContext } from "react"
 import { createEditor } from "slate"
 import { withReact, Slate, Editable, RenderElementProps, RenderLeafProps } from "slate-react"
 import { withHistory } from "slate-history"
@@ -8,10 +8,12 @@ import { withCommand } from "@/plugins/slate-command"
 import { withHotkey } from "@/plugins/slate-hotkey"
 import { withCollab, CollabOptions } from "@/plugins/slate-collab"
 import { initialEditorValue } from "@/lib/slate"
+import { docContext } from "@/context/document-context"
 import SlateElement from "./SlateElement"
 import SlateLeaf from "./SlateLeaf"
 
-export default function SlateEditor({ docId, editorId, role }: Readonly<CollabOptions>) {
+export default function SlateEditor() {
+  const { docId, editorId, role } = useContext(docContext)
   const editor = useMemo(() => withCollab(withHotkey(withCommand(withStyle(withHistory(withReact(createEditor()))))),
     { docId, editorId, role }), [role]
   )
