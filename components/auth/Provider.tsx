@@ -8,7 +8,7 @@ export default function Provider({ name, icon, onClick = () => { } }: Readonly<{
   const signInHandler = () => {
     onClick()
     signIn(name.toLowerCase())
-    localStorage.setItem(process.env.REDIRECT_KEY as string, path)
+    localStorage.setItem(process.env.NEXT_PUBLIC_REDIRECT_KEY as string, path)
   }
   return (<div
     className='flex justify-center items-center rounded-full bg-white cursor-pointer hover:shadow'
