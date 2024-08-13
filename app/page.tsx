@@ -7,8 +7,8 @@ import Link from "next/link"
 export default function Home() {
   const router = useRouter()
   useEffect(() => {
-    const redirect = localStorage.getItem(process.env.REDIRECT_KEY as string)
-    localStorage.removeItem(process.env.REDIRECT_KEY as string)
+    const redirect = localStorage.getItem(process.env.NEXT_PUBLIC_REDIRECT_KEY as string)
+    localStorage.removeItem(process.env.NEXT_PUBLIC_REDIRECT_KEY as string)
     if (redirect) router.replace(redirect)
   }, [])
   return (<main className='flex justify-evenly items-center min-h-screen bg-gradient-home from-aqua-green from-20% to-crystal-blue backdrop-blur'>

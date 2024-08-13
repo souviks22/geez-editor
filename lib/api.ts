@@ -1,13 +1,14 @@
 type APIResponse = { message: string, data: any }
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
-const api = process.env.BACKEND_DOMAIN
+const api = process.env.NEXT_PUBLIC_BACKEND_DOMAIN
 
 export const request = async ({ url, method = 'GET', body }: Readonly<{ url: string, method?: HTTPMethod, body?: {} }>) => {
   const response = await fetch(`${api}${url}`, {
     method,
     body: body ? JSON.stringify(body) : null,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include'
   })
   const { success, message, data } = await response.json()
   if (!success) throw new Error(message)

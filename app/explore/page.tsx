@@ -4,13 +4,23 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { AiOutlinePlus, AiFillProduct } from "react-icons/ai"
 import { authContext } from "@/context/auth-context"
+import { docContext } from "@/context/document-context"
+import { request } from "@/lib/api"
+import { Document } from "@/types/model"
 
 export default function Explore() {
   const { toggleFallback } = useContext(authContext)
+  const { changeDocHandler } = useContext(docContext)
   const { data: session } = useSession()
   const router = useRouter()
-  const newDocumentHandler = () => {
+  const newDocumentHandler = async () => {
     if (session) {
+      const { data } = await request({
+        url: '/documents/new-doc',
+        method: 'POST'
+      })
+      const document = data?.document as Document
+      changeDocHandler(document._id, document.content)
       router.push('/editor')
     } else {
       toggleFallback()
