@@ -24,13 +24,22 @@ export const nextAuthOptions: NextAuthOptions = {
     async jwt({ token, user, trigger }) {
       if (user) {
         const { id, email, name, image } = user
-        await request({
+        const { data } = await request({
           url: `/users/${trigger?.toLowerCase()}`,
           method: 'POST',
           body: { oauthId: id, email, name, image }
         })
+        token.auth = {
+          token: data?.token,
+          _id: data?._id
+        }
       }
       return token
+    },
+    async session({ session, token }) {
+      session.token = token.auth?.token
+      session.user._id = token.auth?._id
+      return session
     }
   }
 }
