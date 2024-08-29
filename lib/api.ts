@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react"
 type APIResponse = { message: string, data: any }
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
-const api = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BACKEND_DOMAIN : 'http://localhost:5000'
+const api = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BACKEND_DOMAIN : 'http://localhost:4000'
 
 export const request = async ({ url, method = 'GET', body }: Readonly<{ url: string, method?: HTTPMethod, body?: {} }>) => {
   const session = await getSession()
