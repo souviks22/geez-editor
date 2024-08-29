@@ -7,3 +7,9 @@ export type Document = {
   createdAt: Date
   updatedAt: Date
 }
+
+export type User = {
+  name: string,
+  email: string,
+  image: string
+}

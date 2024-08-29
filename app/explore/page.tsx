@@ -7,33 +7,33 @@ import { authContext } from "@/context/auth-context"
 import { docContext } from "@/context/document-context"
 import { request } from "@/lib/api"
 import { Document } from "@/types/model"
+import MyDocument from "@/components/explore/MyDocument"
 
 export default function Explore() {
   const { toggleFallback } = useContext(authContext)
   const { changeDocHandler } = useContext(docContext)
   const { data: session } = useSession()
   const router = useRouter()
+
+  const openEditorHandler = (document: Document) => {
+    changeDocHandler(document._id, document.content)
+    router.push('/editor')
+  }
   const newDocumentHandler = async () => {
     if (session) {
       const { data } = await request({
         url: '/documents/new-doc',
         method: 'POST'
       })
-      const document = data?.document as Document
-      changeDocHandler(document._id, document.content)
-      router.push('/editor')
-    } else {
-      toggleFallback()
-    }
+      openEditorHandler(data.document)
+    } else toggleFallback()
   }
 
   const [documents, setDocuments] = useState<Document[]>([])
   useEffect(() => {
     if (!session) return
     (async () => {
-      const { data } = await request({
-        url: `/permissions/users/${session?.user._id}`
-      })
+      const { data } = await request({ url: `/permissions/users/${session?.user._id}` })
       const documents = data.documents as Document[]
       setDocuments(documents)
     })()
@@ -56,12 +56,11 @@ export default function Explore() {
       <div className='flex flex-col justify-center items-center min-h-96 p-10 gap-10'>
         {documents.length ?
           documents.map(document =>
-            <aside key={document._id} className='w-full flex justify-between cursor-pointer p-2 transition-transform hover:scale-95 border-b border-crystal-blue'>
-              <div className='h-36 w-28 flex text-xs text-center items-center shadow-md p-2'>
-                {document.title}
-              </div>
-            </aside>
-          )
+            <MyDocument
+              key={document._id} 
+              document={document}
+              onClick={openEditorHandler}
+            />)
           :
           <aside className='flex flex-col items-center'>
             <AiFillProduct className='text-crystal-blue opacity-50' size={100} />
