@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react"
 import { Document, User } from "@/types/model"
 import { request } from "@/lib/api"
-import { convert } from "@/lib/utility"
+import { convert, VIEW_LIMIT } from "@/lib/utility"
 import Image from "next/image"
-
-const VIEW_LIMIT = 5
 
 export default function MyDocument({ document, onClick }: Readonly<{ document: Document, onClick: (document: Document) => void }>) {
   const [owners, setOwners] = useState<User[]>([])
@@ -42,8 +40,9 @@ export default function MyDocument({ document, onClick }: Readonly<{ document: D
     </div>
     <section className='text-sm px-20'>
       <div className='flex items-center ml-2 py-2'>
-        {owners.slice(0, Math.min(owners.length, VIEW_LIMIT)).map(owner =>
+        {owners.slice(0, Math.min(owners.length, VIEW_LIMIT)).map((owner, i) =>
           <Image
+            key={i}
             src={owner.image}
             alt={owner.email}
             height={30}
