@@ -53,7 +53,7 @@ export default function Explore() {
     </section>
     <section className='w-full px-32 py-10'>
       <span className='text-xl'>My Documents</span>
-      <div className='flex flex-col justify-center items-center min-h-96 p-10 gap-10'>
+      <div className='flex flex-col items-center min-h-96 p-10 gap-10'>
         {documents.length ?
           documents.map(document =>
             <MyDocument

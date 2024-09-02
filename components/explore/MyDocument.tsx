@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react"
 import { Document, User } from "@/types/model"
 import { request } from "@/lib/api"
+import { convert } from "@/lib/utility"
+import Image from "next/image"
+
+const VIEW_LIMIT = 5
 
 export default function MyDocument({ document, onClick }: Readonly<{ document: Document, onClick: (document: Document) => void }>) {
   const [owners, setOwners] = useState<User[]>([])
@@ -30,33 +34,33 @@ export default function MyDocument({ document, onClick }: Readonly<{ document: D
   }, [cycles])
 
   return (<aside
-    className='w-full flex items-center cursor-pointer p-2 transition-transform hover:scale-105 border-b border-crystal-blue'
+    className='w-full flex items-center cursor-pointer pb-5 hover:scale-105 transition-transform border-b border-crystal-blue'
     onClick={() => onClick(document)}
   >
-    <div className='h-36 w-28 flex text-xs text-center items-center shadow-md p-2'>
+    <div className='h-36 w-28 flex text-xs text-center items-center shadow-md p-2 hover:scale-105'>
       {document.title}
     </div>
     <section className='text-sm px-20'>
-      <div>Authored by {owners.map(owner => owner.name).join(', ')}</div>
+      <div className='flex items-center ml-2 py-2'>
+        {owners.slice(0, Math.min(owners.length, VIEW_LIMIT)).map(owner =>
+          <Image
+            src={owner.image}
+            alt={owner.email}
+            height={30}
+            width={30}
+            className='-ml-2 rounded-full'
+          />
+        )}
+        {owners.length > VIEW_LIMIT &&
+          <span className='px-2'>
+            + {owners.length - VIEW_LIMIT} other{owners.length - VIEW_LIMIT > 1 ? 's' : ''}
+          </span>
+        }
+      </div>
+      <div className='text-lg'>{document.title}</div>
+      <div className='text-base pb-3'>Authored by {owners.map(owner => owner.name).join(', ')}</div>
       <div>Last updated {period} ago</div>
       <div>Created on {`${creationDate}, ${creationYear}`}</div>
     </section>
   </aside>)
-}
-
-const convert = (diff: number) => {
-  const periods = ['year', 'month', 'day', 'hour', 'minute', 'second']
-  let period = 0, i = 0
-  const seconds = Math.floor(diff / 1000)
-  const minutes = Math.floor(seconds / 60)
-  const hours = Math.floor(minutes / 60)
-  const days = Math.floor(hours / 24)
-  const months = Math.floor(days / 30)
-  const years = Math.floor(months / 12)
-  for (const cur of [years, months, days, hours, minutes, seconds]) {
-    period = cur
-    if (cur) break
-    i += 1
-  }
-  return `${period} ${periods[i]}${period > 1 ? 's' : ''}`
 }
