@@ -4,32 +4,28 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { AiOutlinePlus, AiFillProduct } from "react-icons/ai"
 import { authContext } from "@/context/auth-context"
-import { docContext } from "@/context/document-context"
 import { request } from "@/lib/api"
 import { Document } from "@/types/model"
+
 import MyDocument from "@/components/explore/MyDocument"
 
 export default function Explore() {
-  const { toggleFallback } = useContext(authContext)
-  const { changeDocHandler } = useContext(docContext)
-  const { data: session } = useSession()
   const router = useRouter()
+  const { data: session } = useSession()
+  const { toggleFallback } = useContext(authContext)
+  const [documents, setDocuments] = useState<Document[]>([])
 
-  const openEditorHandler = (document: Document) => {
-    changeDocHandler(document._id, document.content)
-    router.push('/editor')
-  }
   const newDocumentHandler = async () => {
     if (session) {
       const { data } = await request({
         url: '/documents/new-doc',
         method: 'POST'
       })
-      openEditorHandler(data.document)
+      const { _id } = data.document as Document
+      router.push(`/documents/${_id}`)
     } else toggleFallback()
   }
 
-  const [documents, setDocuments] = useState<Document[]>([])
   useEffect(() => {
     if (!session) return
     (async () => {
@@ -37,7 +33,7 @@ export default function Explore() {
       const documents = data.documents as Document[]
       setDocuments(documents)
     })()
-  }, [session])
+  }, [session?.user])
 
   return (<main className='flex min-h-screen flex-col items-center justify-evenly'>
     <section className='w-full bg-slate-100 p-10 flex flex-col justify-center items-center my-20'>
@@ -55,12 +51,7 @@ export default function Explore() {
       <span className='text-xl'>My Documents</span>
       <div className='flex flex-col items-center min-h-96 p-10 gap-10'>
         {documents.length ?
-          documents.map(document =>
-            <MyDocument
-              key={document._id} 
-              document={document}
-              onClick={openEditorHandler}
-            />)
+          documents.map(document => <MyDocument key={document._id} document={document} />)
           :
           <aside className='flex flex-col items-center'>
             <AiFillProduct className='text-crystal-blue opacity-50' size={100} />

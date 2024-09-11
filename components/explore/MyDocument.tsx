@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Document, User } from "@/types/model"
 import { request } from "@/lib/api"
 import { convert, VIEW_LIMIT } from "@/lib/utility"
 import Image from "next/image"
 
-export default function MyDocument({ document, onClick }: Readonly<{ document: Document, onClick: (document: Document) => void }>) {
+export default function MyDocument({ document }: Readonly<{ document: Document }>) {
+  const router = useRouter()
   const [owners, setOwners] = useState<User[]>([])
   const [cycles, setCycles] = useState<number>(0)
   const [period, setPeriod] = useState<string>()
@@ -33,7 +35,7 @@ export default function MyDocument({ document, onClick }: Readonly<{ document: D
 
   return (<aside
     className='w-full flex items-center cursor-pointer pb-5 hover:scale-105 transition-transform border-b border-crystal-blue'
-    onClick={() => onClick(document)}
+    onClick={() => router.push(`documents/${document._id}`)}
   >
     <div className='h-36 w-28 flex text-xs text-center items-center shadow-md p-2 hover:scale-105'>
       {document.title}
