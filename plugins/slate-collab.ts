@@ -1,31 +1,37 @@
-import { Editor, Operation, Transforms } from "slate"
+import { Editor, Operation, Transforms, Descendant } from "slate"
 import { slateType } from "slate-ot"
 import { Socket, Type } from "sharedb/lib/sharedb"
-import sharedb, { ShareDBSourceOptions } from "sharedb/lib/client"
+import { initialEditorValue } from "@/lib/slate"
+
+import ShareDBClient, { ShareDBSourceOptions } from "sharedb/lib/client"
 import ReconnectingWebSocket from "reconnecting-websocket"
 import ObjectID from "bson-objectid"
 
-sharedb.types.register(slateType as Type)
-
 export type CollabEditor = {
-  initialValue: []
+  initialValue: Descendant[]
   operationHandler: () => void
 }
-
 export type CollabDoc = { docId: string, editorId: string }
 export type CollabRole = 'owner' | 'viewer' | 'editor'
-export type CollabOptions = { role: CollabRole } & CollabDoc
+export type CollabOptions = { role: CollabRole, token: string } & CollabDoc
 
-export const withCollab = (editor: Editor, { docId, editorId, role }: Readonly<CollabOptions>) => {
-  const websocketURL = process.env.BACKEND_DOMAIN + `?docId=${docId}&role=${role}`
-  const socket = new ReconnectingWebSocket(websocketURL, [], { maxEnqueuedMessages: 0 })
-  const connection = new sharedb.Connection(socket as Socket)
+ShareDBClient.types.register(slateType as Type)
+const api = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_WEBSOCKET_DOMAIN : 'ws://localhost:4000'
+
+export const withCollab = (editor: Editor, { docId, editorId, role, token }: Readonly<CollabOptions>) => {
+  if (!token || !editorId) {
+    editor.initialValue = initialEditorValue
+    return editor
+  }
+  const websocketURL = `${api}?docId=${docId}&role=${role}&token=${token}`
+  const socket = new ReconnectingWebSocket(websocketURL)
+  const connection = new ShareDBClient.Connection(socket as Socket)
   const doc = connection.get('editors', editorId)
   const socketId = new ObjectID().toHexString()
 
   doc.subscribe(() => {
-    Transforms.removeNodes(editor, { at: [] })
-    Transforms.insertNodes(editor, doc.data?.children, { at: [] })
+    if (!doc.type) doc.create(initialEditorValue)
+    editor.children = doc.data
     doc.on('op', (op: Operation | Operation[], options: ShareDBSourceOptions) => {
       if (options.source === socketId) return
       const ops = Array.isArray(op) ? op : [op]
