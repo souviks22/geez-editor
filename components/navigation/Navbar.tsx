@@ -20,6 +20,7 @@ export default function Navbar() {
         alt='Geez'
         width={50}
         height={50}
+        priority
       />
     </Link>
     {session
