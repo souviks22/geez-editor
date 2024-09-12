@@ -11,7 +11,8 @@ const nextConfig = {
         hostname: 'avatars.githubusercontent.com'
       }
     ]
-  }
+  },
+  transpilePackages: ['@slate-yjs/react']
 };
 
 export default nextConfig;

@@ -47,7 +47,7 @@ export const withCommand = (editor: Editor) => {
   }
 
   editor.changeFontSize = (increment: boolean) => {
-    const isHeading = editor.isElementType('heading', '')
+    const isHeading = editor.isElementType('heading')
     const bias = (isHeading ? 1 : 0.25) * (increment ? 1 : -1)
     const size = Editor.marks(editor)?.fontSize || 1
     Editor.addMark(editor, 'fontSize', Math.max(size + bias, 0.5))
@@ -63,7 +63,7 @@ export const withCommand = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node] = entry
     if (Editor.isEditor(node) && node.children.length === 0) {
-      Transforms.insertNodes(editor, [{ text: '' }], { at: [0] })
+      Transforms.insertNodes(editor, { children: [{ text: '' }] }, { at: [0] })
     } else normalizeNode(entry)
   }
 
