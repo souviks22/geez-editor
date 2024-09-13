@@ -1,54 +1,64 @@
 import { Editor, Element, Transforms, Node, Path } from "slate"
+import { initialEditorValue } from "@/lib/slate"
 
 export type CommandEditor = {
-  isElementType: (type: string, internal?: string) => boolean,
+  isElementType: (type: string, internal: string, run: boolean) => boolean,
+  isQuoteBlock: (run?: boolean) => boolean,
   toggleQuoteBlock: () => void,
+  isBulltedList: (run?: boolean) => boolean,
   toggleBulletedList: () => void,
+  isNumberedList: (run?: boolean) => boolean,
   toggleNumberedList: () => void,
+  isHeading: (run?: boolean) => boolean,
   toggleHeading: () => void,
   changeFontSize: (increment: boolean) => void,
   selectPortion: (element: boolean) => void
 }
 
-const check = (node: Node, _path?: Path, type?: string) => !Editor.isEditor(node) && Element.isElement(node) && node.type === (type || 'paragraph')
+const match = (node: Node, _path?: Path, type?: string) => !Editor.isEditor(node) && Element.isElement(node) && node.type === (type || 'paragraph')
 
 export const withCommand = (editor: Editor) => {
-  editor.isElementType = (type: string, internal?: string) => {
-    const [match] = Array.from(Editor.nodes(editor, { match: (n, p) => check(n, p, type) }))
-    if (!match) return false
-    Transforms.unwrapNodes(editor, { match: (n, p) => check(n, p, internal) })
-    Transforms.setNodes(editor, { type: 'paragraph' })
-    return true
+  editor.isElementType = (type: string, internal: string = '', run: boolean) => {
+    const [found] = Array.from(Editor.nodes(editor, { match: (n, p) => match(n, p, type) }))
+    if (found && run) {
+      Transforms.unwrapNodes(editor, { match: (n, p) => match(n, p, internal) })
+      Transforms.setNodes(editor, { type: 'paragraph' })
+    }
+    return !!found
   }
 
+  editor.isQuoteBlock = (run: boolean = false) => editor.isElementType('quote-block', 'inline', run)
   editor.toggleQuoteBlock = () => {
-    if (editor.isElementType('quote-block', 'inline')) return
-    Transforms.wrapNodes(editor, { type: 'quote-block', children: [] }, { match: check })
-    Transforms.setNodes(editor, { type: 'inline' }, { match: check })
+    if (editor.isQuoteBlock(true)) return
+    Transforms.wrapNodes(editor, { type: 'quote-block', children: [] }, { match })
+    Transforms.setNodes(editor, { type: 'inline' }, { match })
   }
 
+
+  editor.isBulltedList = (run: boolean = false) => editor.isElementType('bulleted-list', 'list-item', run)
   editor.toggleBulletedList = () => {
-    if (editor.isElementType('bulleted-list', 'list-item')) return
-    Transforms.wrapNodes(editor, { type: 'bulleted-list', children: [] }, { match: check })
-    Transforms.setNodes(editor, { type: 'list-item' }, { match: check })
+    if (editor.isBulltedList(true)) return
+    Transforms.wrapNodes(editor, { type: 'bulleted-list', children: [] }, { match })
+    Transforms.setNodes(editor, { type: 'list-item' }, { match })
   }
 
+  editor.isNumberedList = (run: boolean = false) => editor.isElementType('numbered-list', 'list-item', run)
   editor.toggleNumberedList = () => {
-    if (editor.isElementType('numbered-list', 'list-item')) return
-    Transforms.wrapNodes(editor, { type: 'numbered-list', children: [] }, { match: check })
-    Transforms.setNodes(editor, { type: 'list-item' }, { match: check })
+    if (editor.isNumberedList(true)) return
+    Transforms.wrapNodes(editor, { type: 'numbered-list', children: [] }, { match })
+    Transforms.setNodes(editor, { type: 'list-item' }, { match })
   }
 
+  editor.isHeading = (run: boolean = false) => editor.isElementType('heading', '', run)
   editor.toggleHeading = () => {
-    if (editor.isElementType('heading')) return Editor.removeMark(editor, 'fontSize')
-    Transforms.setNodes(editor, { type: 'heading' }, { match: check })
+    if (editor.isHeading(true)) return Editor.removeMark(editor, 'fontSize')
+    Transforms.setNodes(editor, { type: 'heading' }, { match })
     editor.selectPortion(true)
     Editor.addMark(editor, 'fontSize', 3)
   }
 
   editor.changeFontSize = (increment: boolean) => {
-    const isHeading = editor.isElementType('heading')
-    const bias = (isHeading ? 1 : 0.25) * (increment ? 1 : -1)
+    const bias = (editor.isHeading() ? 1 : 0.25) * (increment ? 1 : -1)
     const size = Editor.marks(editor)?.fontSize || 1
     Editor.addMark(editor, 'fontSize', Math.max(size + bias, 0.5))
   }
@@ -63,7 +73,7 @@ export const withCommand = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node] = entry
     if (Editor.isEditor(node) && node.children.length === 0) {
-      Transforms.insertNodes(editor, { children: [{ text: '' }] }, { at: [0] })
+      Transforms.insertNodes(editor, initialEditorValue[0], { at: [0] })
     } else normalizeNode(entry)
   }
 

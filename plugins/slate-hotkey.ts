@@ -22,7 +22,8 @@ export const withHotkey = (editor: Editor) => {
         editor.toggleCodeMark()
         break
       case '=':
-        editor.toggleSubscriptMark()
+        if (event.shiftKey) editor.toggleSuperscriptMark()
+        else editor.toggleSubscriptMark()
         break
       case '+':
         editor.toggleSuperscriptMark()
@@ -33,11 +34,13 @@ export const withHotkey = (editor: Editor) => {
       case 'y': case 'Y':
         editor.redo()
         break
-      case 'q': case 'Q':
-        editor.toggleQuoteBlock()
+      case ',':
+        if(event.shiftKey) editor.changeFontSize(false)
+        else editor.toggleQuoteBlock()
         break
       case '.':
-        editor.toggleBulletedList()
+        if(event.shiftKey) editor.changeFontSize(true)
+        else editor.toggleBulletedList()
         break
       case '1':
         editor.toggleNumberedList()
