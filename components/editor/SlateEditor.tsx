@@ -9,12 +9,14 @@ import { withHotkey } from "@/plugins/slate-hotkey"
 import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core"
 import { LiveblocksYjsProvider } from "@liveblocks/yjs"
 import { initialEditorValue } from "@/lib/slate"
+import { Document } from "@/types/model"
 
 import * as Y from "yjs"
 import SlateElement from "./SlateElement"
 import SlateLeaf from "./SlateLeaf"
+import Toolbox from "@/components/toolbox/Toolbox"
 
-export default function SlateEditor({ sharedType, provider }: Readonly<{ sharedType: Y.XmlText, provider: LiveblocksYjsProvider }>) {
+export default function SlateEditor({ sharedType, provider, document, onRefetch }: Readonly<{ sharedType: Y.XmlText, provider: LiveblocksYjsProvider, document: Document, onRefetch: () => void }>) {
   const { data: session } = useSession()
   const editor = useMemo(() =>
     withCursors(
@@ -36,6 +38,7 @@ export default function SlateEditor({ sharedType, provider }: Readonly<{ sharedT
   const renderLeaf = useCallback((props: RenderLeafProps) => <SlateLeaf {...props} />, [])
 
   return (<Slate editor={editor} initialValue={initialEditorValue}>
+    <Toolbox document={document} onRefetch={onRefetch} />
     <Editable
       className="w-[794px] min-h-[1123px] bg-white px-24 py-20 outline-none"
       renderElement={renderElement}

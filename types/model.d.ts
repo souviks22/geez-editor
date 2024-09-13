@@ -1,9 +1,11 @@
+export type Visibility = 'private' | 'public'
+
 export type Document = {
   _id: string
   title: string
   owner: string
   content: string
-  visibility: 'private' | 'public'
+  visibility: Visibility
   createdAt: Date
   updatedAt: Date
 }

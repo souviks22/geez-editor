@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { LiveblocksYjsProvider } from "@liveblocks/yjs"
 import { useRoom } from "@liveblocks/react"
+import { Document } from "@/types/model"
 
 import * as Y from "yjs"
 import SlateEditor from "./SlateEditor"
@@ -8,7 +9,7 @@ import Loading from "../ui/Loading"
 
 export type CollabRole = 'viewer' | 'editor' | 'owner'
 
-export default function CollabEditor() {
+export default function CollabEditor({ document, onRefetch }: Readonly<{ document: Document, onRefetch: () => void }>) {
     const room = useRoom()
     const [connected, setConnected] = useState<boolean>(false)
     const [sharedType, setSharedType] = useState<Y.XmlText>()
@@ -29,7 +30,12 @@ export default function CollabEditor() {
     }, [room])
 
     return (connected && sharedType && provider ?
-        <SlateEditor sharedType={sharedType} provider={provider} />
+        <SlateEditor
+            sharedType={sharedType}
+            provider={provider}
+            document={document}
+            onRefetch={onRefetch}
+        />
         :
         <Loading />
     )

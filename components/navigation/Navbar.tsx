@@ -1,6 +1,7 @@
 "use client"
 import { useState, useContext } from "react"
 import { useSession, signOut } from "next-auth/react"
+import { usePathname } from "next/navigation"
 import { authContext } from "@/context/auth-context"
 import Image from "next/image"
 import Link from "next/link"
@@ -11,8 +12,9 @@ export default function Navbar() {
   const { data: session, status } = useSession()
   const [menu, setMenu] = useState<boolean>(false)
   const { active, toggleFallback } = useContext(authContext)
+  const isEditor = /^\/documents\/.*$/.test(usePathname())
 
-  return (<div className={`flex justify-between items-center fixed z-10 w-full px-28 py-2 ${!active && 'backdrop-blur'}`}>
+  return (<div className={`flex justify-between items-center fixed z-10 w-full px-28 py-2 ${!active && !isEditor && 'backdrop-blur'}`}>
     <Link href={'/'} className='hover:bg-sky-50 p-1 rounded'>
       <Image
         src={'/geez-logo.png'}
