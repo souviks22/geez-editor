@@ -2,16 +2,16 @@ import { useSlate } from "slate-react"
 import { Document } from "@/types/model"
 import {
 	MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdSubscript, MdSuperscript, MdCode,
-	MdFormatQuote, MdFormatListBulleted, MdFormatListNumbered, MdHMobiledata,MdTextIncrease, MdTextDecrease
+	MdFormatQuote, MdFormatListBulleted, MdFormatListNumbered, MdHMobiledata, MdTextIncrease, MdTextDecrease
 } from "react-icons/md"
 
 import Naming from "./Naming"
 import Visiblity from "./Visibility"
 import Format from "./Format"
+import Share from "./Share"
 
 export default function Toolbox({ document, onRefetch }: Readonly<{ document: Document, onRefetch: () => void }>) {
 	const editor = useSlate()
-
 	return (<div className='w-2/3 flex justify-between items-center bg-white z-10 p-3 rounded'>
 		<section>
 			<div className="flex space-x-2 items-center">
@@ -40,6 +40,9 @@ export default function Toolbox({ document, onRefetch }: Readonly<{ document: Do
 				<Format icon={<MdTextIncrease />} label={'Font Increment'} shortcut={'>'} onClick={() => editor.changeFontSize(true)} />
 				<Format icon={<MdTextDecrease />} label={'Font Decrement'} shortcut={'<'} onClick={() => editor.changeFontSize(false)} />
 			</div>
+		</section>
+		<section>
+			<Share docId={document._id} visibility={document.visibility} />
 		</section>
 	</div>)
 }

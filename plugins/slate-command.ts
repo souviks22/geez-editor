@@ -26,14 +26,13 @@ export const withCommand = (editor: Editor) => {
     }
     return !!found
   }
-
+  
   editor.isQuoteBlock = (run: boolean = false) => editor.isElementType('quote-block', 'inline', run)
   editor.toggleQuoteBlock = () => {
     if (editor.isQuoteBlock(true)) return
     Transforms.wrapNodes(editor, { type: 'quote-block', children: [] }, { match })
     Transforms.setNodes(editor, { type: 'inline' }, { match })
   }
-
 
   editor.isBulltedList = (run: boolean = false) => editor.isElementType('bulleted-list', 'list-item', run)
   editor.toggleBulletedList = () => {
