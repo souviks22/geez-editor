@@ -17,10 +17,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (<html lang='en'>
     <Session>
       <AuthProvider>
-          <body className={roboto.className}>
-            <Navbar />
-            {children}
-          </body>
+        <body className={roboto.className}>
+          <Navbar />
+          {children}
+        </body>
       </AuthProvider>
     </Session>
   </html>)

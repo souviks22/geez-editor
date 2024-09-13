@@ -4,6 +4,7 @@ import { useRoom } from "@liveblocks/react"
 
 import * as Y from "yjs"
 import SlateEditor from "./SlateEditor"
+import Loading from "../ui/Loading"
 
 export type CollabRole = 'viewer' | 'editor' | 'owner'
 
@@ -30,7 +31,6 @@ export default function CollabEditor() {
     return (connected && sharedType && provider ?
         <SlateEditor sharedType={sharedType} provider={provider} />
         :
-        <div>Loading</div>
+        <Loading />
     )
-
 }

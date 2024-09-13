@@ -5,16 +5,15 @@ import { authContext } from "@/context/auth-context"
 import Image from "next/image"
 import Link from "next/link"
 import Protect from "../auth/Protect"
+import Loading from "../ui/Loading"
 
 export default function Navbar() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [menu, setMenu] = useState<boolean>(false)
   const { active, toggleFallback } = useContext(authContext)
+
   return (<div className={`flex justify-between items-center fixed z-10 w-full px-28 py-2 ${!active && 'backdrop-blur'}`}>
-    <Link
-      href={'/'}
-      className='hover:bg-sky-50 p-1 rounded'
-    >
+    <Link href={'/'} className='hover:bg-sky-50 p-1 rounded'>
       <Image
         src={'/geez-logo.png'}
         alt='Geez'
@@ -23,8 +22,7 @@ export default function Navbar() {
         priority
       />
     </Link>
-    {session
-      ?
+    {status === 'authenticated' ?
       <section className='relative cursor-pointer' onClick={() => setMenu(menu => !menu)}>
         <Image
           src={session.user?.image || '/user.png'}
@@ -41,15 +39,11 @@ export default function Navbar() {
           </div>
         }
       </section>
-      :
-      <p onClick={toggleFallback} className='bg-sky-50 hover:bg-sky-100 px-5 py-2 m-5 cursor-pointer transition-colors duration-200 rounded shadow'>
-        Sign In
-      </p>
+      : status === 'loading' ? <Loading />
+        : <p onClick={toggleFallback} className='bg-sky-50 hover:bg-sky-100 px-5 py-2 m-5 cursor-pointer transition-colors duration-200 rounded shadow'>
+          Sign In
+        </p>
     }
-    {active &&
-      <section className='absolute w-full top-0 left-0'>
-        <Protect onClick={toggleFallback} />
-      </section>
-    }
+    {active && <Protect onClick={toggleFallback} />}
   </div>)
 }

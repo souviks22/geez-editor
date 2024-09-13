@@ -14,7 +14,6 @@
     "@liveblocks/yjs": "^2.6.1",
     "@slate-yjs/core": "^1.0.2",
     "@slate-yjs/react": "^1.1.0",
-    "bson-objectid": "^2.0.4",
     "next": "14.2.4",
     "next-auth": "^4.24.7",
     "react": "^18",
