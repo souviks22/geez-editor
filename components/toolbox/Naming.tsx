@@ -4,7 +4,7 @@ export default function Naming({ docId, current }: Readonly<{ docId: string, cur
 	const nameChangeHandler = async (event: any) => {
 		await updateDocument({ docId, update: { title: event.target.innerText } })
 	}
-	return (<div className='text-2xl'>
+	return (<div className='text-xl'>
 		<span
 			contentEditable={true}
 			className='max-w-10 px-2 py-1'

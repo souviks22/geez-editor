@@ -1,11 +1,9 @@
 "use client"
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
-import { RoomProvider } from "@liveblocks/react"
-import { ClientSideSuspense } from "@liveblocks/react"
+import { LiveblocksProvider, RoomProvider, ClientSideSuspense } from "@liveblocks/react"
 import { request } from "@/lib/api"
 import { Document } from "@/types/model"
-import { LiveblocksProvider } from "@liveblocks/react"
 import { authEndpoint } from "@/liveblocks.config"
 
 import CollabEditor, { CollabRole } from "@/components/editor/CollabEditor"
@@ -15,7 +13,7 @@ import Loading from "@/components/ui/Loading"
 export default function Editor() {
   const { docId } = useParams()
   const [document, setDocument] = useState<Document>()
-  const [role, setRole] = useState<CollabRole>('viewer')
+  const [role, setRole] = useState<CollabRole>('editor')
   const [update, setUpdate] = useState<number>(0)
   const roomId = `${docId}:${document?.content}:${role}`
 
@@ -41,5 +39,5 @@ export default function Editor() {
         </LiveblocksProvider>
       }
     </section>
-  </main>)
+  </main >)
 }

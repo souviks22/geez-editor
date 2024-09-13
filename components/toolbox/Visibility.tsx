@@ -26,7 +26,7 @@ export default function Visiblity({ docId, visibility, onRefetch }: Readonly<{ d
             </div>
         </section>}
         <span
-            className='border rounded-xl px-2 py-1 cursor-pointer'
+            className='border text-sm rounded-xl px-2 py-1 cursor-pointer'
             onClick={() => setConfirm(true)}
         >
             {visibility}
