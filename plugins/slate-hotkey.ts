@@ -2,6 +2,7 @@ import { Editor } from "slate"
 
 export type HotkeyEditor = {
   hotkeyHandler: (event: React.KeyboardEvent) => void
+  editingHandler: () => void
 }
 
 export const withHotkey = (editor: Editor) => {
@@ -35,11 +36,11 @@ export const withHotkey = (editor: Editor) => {
         editor.redo()
         break
       case ',':
-        if(event.shiftKey) editor.changeFontSize(false)
+        if (event.shiftKey) editor.changeFontSize(false)
         else editor.toggleQuoteBlock()
         break
       case '.':
-        if(event.shiftKey) editor.changeFontSize(true)
+        if (event.shiftKey) editor.changeFontSize(true)
         else editor.toggleBulletedList()
         break
       case '1':

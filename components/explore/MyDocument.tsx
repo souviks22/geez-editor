@@ -41,7 +41,7 @@ export default function MyDocument({ document }: Readonly<{ document: Document }
     className='w-full flex items-center cursor-pointer pb-5 hover:scale-105 transition-transform border-b border-crystal-blue'
     onClick={() => router.push(`documents/${document._id}`)}
   >
-    <div className='h-36 w-28 flex text-xs text-center items-center shadow-md p-2 hover:scale-105'>
+    <div className='h-36 w-28 flex bg-slate-50 text-center text-sm justify-center items-center shadow-md p-2 hover:scale-105'>
       {document.title}
     </div>
     <section className='text-sm px-20'>

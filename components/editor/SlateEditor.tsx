@@ -9,14 +9,16 @@ import { withHotkey } from "@/plugins/slate-hotkey"
 import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core"
 import { LiveblocksYjsProvider } from "@liveblocks/yjs"
 import { initialEditorValue } from "@/lib/slate"
-import { Document } from "@/types/model"
+import { CollabRole, Document } from "@/types/model"
 
 import * as Y from "yjs"
 import SlateElement from "./SlateElement"
 import SlateLeaf from "./SlateLeaf"
 import Toolbox from "@/components/toolbox/Toolbox"
 
-export default function SlateEditor({ sharedType, provider, document, onRefetch }: Readonly<{ sharedType: Y.XmlText, provider: LiveblocksYjsProvider, document: Document, onRefetch: () => void }>) {
+export default function SlateEditor({ sharedType, provider, document, role, onRefetch }: Readonly<{
+  sharedType: Y.XmlText, provider: LiveblocksYjsProvider, document: Document, role: CollabRole, onRefetch: () => void
+}>) {
   const { data: session } = useSession()
   const editor = useMemo(() =>
     withCursors(
@@ -38,14 +40,14 @@ export default function SlateEditor({ sharedType, provider, document, onRefetch 
   const renderLeaf = useCallback((props: RenderLeafProps) => <SlateLeaf {...props} />, [])
 
   return (<Slate editor={editor} initialValue={initialEditorValue}>
-    <Toolbox document={document} onRefetch={onRefetch} />
+    <Toolbox document={document} role={role} onRefetch={onRefetch} />
     <Editable
       className="w-[794px] min-h-[1123px] bg-white px-24 py-20 outline-none"
       renderElement={renderElement}
       renderLeaf={renderLeaf}
       onKeyDown={editor.hotkeyHandler}
-      autoFocus
-      spellCheck
+      onMouseDown={editor.editingHandler}
+      readOnly={role === 'viewer'}
     />
   </Slate>)
 }

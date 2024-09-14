@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { useError } from "@/hooks/use-error"
 import { IoMdShare } from "react-icons/io"
-import { CollabRole } from "../editor/CollabEditor"
-import { Visibility } from "@/types/model"
+import { Visibility, CollabRole } from "@/types/model"
 import { grantPermission } from "@/lib/update"
 
 import CopyLink from "./CopyLink"
@@ -32,7 +31,7 @@ export default function Share({ docId, visibility }: Readonly<{ docId: string, v
 			onClick={() => setShare(true)}
 		>
 			<IoMdShare size={20} />
-			<p className='text-sm absolute bg-slate-100 group-hover:block hidden rounded p-1 left-6'>Share</p>
+			<p className='text-sm absolute z-10 bg-slate-100 group-hover:block hidden rounded p-1 left-6'>Share</p>
 		</div>
 		{share && <section className='absolute w-full h-screen top-0 left-0 flex justify-center items-center'>
 			<div className='w-2/5 relative flex flex-col bg-slate-200 rounded-xl p-10 space-y-5'>
@@ -54,11 +53,13 @@ export default function Share({ docId, visibility }: Readonly<{ docId: string, v
 					>
 						<option value='viewer'>Viewer</option>
 						<option value='editor'>Editor</option>
+						<option value='owner'>Owner</option>
 					</select>
 					<p>
 						{visibility === 'public' ? 'Anyone can view this document'
-							: role === 'viewer' ? 'Only selected people can view this document' :
-								'Only selected people can edit this document'
+							: role === 'viewer' ? 'Only selected people can view this document'
+								: role === 'editor' ? 'Only selected people can edit content of this document'
+									: 'Only selected people can change settings of this document'
 						}
 					</p>
 				</section>

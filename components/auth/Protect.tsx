@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react"
 import Authentication from "./Authentication"
 import Loading from "../ui/Loading"
 
-export default function Protect({ onClick = () => { } }: Readonly<{ except?: boolean, onClick?: () => void }>) {
+export default function Protect({ onClick = () => { } }: Readonly<{ onClick?: () => void }>) {
   const { status } = useSession()
   return (<div className='absolute w-full top-0 left-0'>
     {status === 'loading' ? <Loading />
