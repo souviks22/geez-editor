@@ -22,3 +22,21 @@ export type Permission = {
   user: string,
   role: CollabRole
 }
+
+export type Cursor = {
+  name: string
+  color: string
+}
+
+declare global {
+  interface Liveblocks {
+    UserMeta: {
+      id: string
+      info: {
+        name: string
+        picture: string
+        color: string
+      }
+    }
+  }
+}
