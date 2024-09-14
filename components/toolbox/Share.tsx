@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useError } from "@/hooks/use-error"
 import { IoMdShare } from "react-icons/io"
 import { CollabRole } from "../editor/CollabEditor"
 import { Visibility } from "@/types/model"
@@ -14,15 +15,16 @@ export default function Share({ docId, visibility }: Readonly<{ docId: string, v
 	const [email, setEmail] = useState<string>('')
 	const [role, setRole] = useState<CollabRole>('viewer')
 	const [emailError, setEmailError] = useState<boolean>(false)
+	const { catchError } = useError()
 	const emailChangeHandler = (event: any) => {
 		const current = event.target.value
 		setEmailError(!emailRegex.test(current))
 		setEmail(current)
 	}
-	const shareHandler = async () => {
+	const shareHandler = catchError(async () => {
 		await grantPermission({ docId, email, role })
 		setShare(false)
-	}
+	}, () => setShare(false))
 
 	return (<div>
 		<div
