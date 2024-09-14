@@ -13,7 +13,7 @@ import Edit from "./Edit"
 
 export default function Toolbox({ document, role, onRefetch }: Readonly<{ document: Document, role: CollabRole, onRefetch: () => void }>) {
 	const editor = useSlate()
-	return (<div className='w-2/3 flex justify-between items-center bg-white z-10 p-3 rounded'>
+	return (<div className='fixed w-2/3 flex justify-between items-center bg-white z-10 p-3 rounded'>
 		<section>
 			<div className="flex space-x-2 items-center">
 				<Visiblity docId={document._id} visibility={document.visibility} onRefetch={onRefetch} />

@@ -2,7 +2,6 @@ import { Editor } from "slate"
 
 export type HotkeyEditor = {
   hotkeyHandler: (event: React.KeyboardEvent) => void
-  editingHandler: () => void
 }
 
 export const withHotkey = (editor: Editor) => {

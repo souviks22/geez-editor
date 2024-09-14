@@ -15,8 +15,7 @@ export default function SlateLeaf({ attributes, children, leaf }: Readonly<Rende
       color: leaf.color || 'black',
       backgroundColor: leaf.backgroundColor || 'transparent',
       fontSize: leaf.fontSize ? leaf.fontSize + 'rem' : 'inherit',
-      fontStyle: leaf.fontStyle || 'inherit',
-      paddingBlock: '1rem'
+      fontStyle: leaf.fontStyle || 'inherit'
     }}
   >
     {formattedText}
