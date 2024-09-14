@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { useError } from "@/hooks/use-error"
 import { AiOutlinePlus, AiFillProduct } from "react-icons/ai"
 import { authContext } from "@/context/auth-context"
 import { request } from "@/lib/api"
@@ -14,8 +15,9 @@ export default function Explore() {
   const { data: session } = useSession()
   const { toggleFallback } = useContext(authContext)
   const [documents, setDocuments] = useState<Document[]>([])
+  const { catchError } = useError()
 
-  const newDocumentHandler = async () => {
+  const newDocumentHandler = catchError(async () => {
     if (session) {
       const { data } = await request({
         url: '/documents/new-doc',
@@ -24,11 +26,11 @@ export default function Explore() {
       const { _id } = data.document as Document
       router.push(`/documents/${_id}`)
     } else toggleFallback()
-  }
+  })
 
   useEffect(() => {
     if (!session) return
-    (async () => {
+    catchError(async () => {
       const { data } = await request({ url: `/permissions/users/${session?.user._id}` })
       const documents = data.documents as Document[]
       setDocuments(documents)

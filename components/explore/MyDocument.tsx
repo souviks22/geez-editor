@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useError } from "@/hooks/use-error"
 import { Document, User } from "@/types/model"
 import { request } from "@/lib/api"
 import { convert, VIEW_LIMIT } from "@/lib/utility"
@@ -7,6 +8,7 @@ import Image from "next/image"
 
 export default function MyDocument({ document }: Readonly<{ document: Document }>) {
   const router = useRouter()
+  const { catchError } = useError()
   const [owners, setOwners] = useState<User[]>([])
   const [cycles, setCycles] = useState<number>(0)
   const [period, setPeriod] = useState<string>()
@@ -15,18 +17,20 @@ export default function MyDocument({ document }: Readonly<{ document: Document }
   const creationDate = creation.slice(4, 10), creationYear = creation.slice(11)
 
   useEffect(() => {
-    (async () => {
+    catchError(async () => {
       const { data } = await request({ url: `/permissions/documents/${document._id}?role=owner` })
       const owners = data.users as User[]
       setOwners(owners)
     })()
   }, [])
+
   useEffect(() => {
     const id = setInterval(() => {
       setCycles(cycles => cycles + 1)
     }, 15000)
     return () => clearInterval(id)
   }, [])
+  
   useEffect(() => {
     const current = new Date().getTime()
     const diff = current - updation

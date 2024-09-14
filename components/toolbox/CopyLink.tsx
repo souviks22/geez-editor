@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { IoLink } from "react-icons/io5"
 
-export default function CopyLink({ docId }: Readonly<{ docId?: string }>) {
+export default function CopyLink() {
   const [copied, setCopied] = useState(false)
   const copyToClipboardHandler = async () => {
     const url = window.location.href

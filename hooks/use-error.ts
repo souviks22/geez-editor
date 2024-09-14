@@ -4,9 +4,9 @@ import { errorContext } from "@/context/error-context"
 
 export const useError = () => {
     const { toggleFallback } = useContext(errorContext)
-    const catchError = (callback: () => Promise<void>, onError?: () => void) => {
-        return () => {
-            callback().catch(error => {
+    const catchError = (callback: (event?: any) => Promise<void>, onError?: () => void) => {
+        return (event?: any) => {
+            callback(event).catch(error => {
                 toggleFallback(error.message)
                 if (onError) onError()
             })
