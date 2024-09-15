@@ -18,6 +18,7 @@ export type User = {
 }
 
 export type Permission = {
+  _id: string,
   document: string,
   user: string,
   role: CollabRole

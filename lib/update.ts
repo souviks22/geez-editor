@@ -16,3 +16,11 @@ export const grantPermission = async ({ docId, email, role }: Readonly<{ docId: 
     body: { docId, email, role }
   })
 }
+
+export const changePermission = async ({ permissionId, role }: Readonly<{ permissionId: string, role: CollabRole }>) => {
+  await request({
+    url: `/permissions/${permissionId}`,
+    method: 'PUT',
+    body: { role }
+  })
+}

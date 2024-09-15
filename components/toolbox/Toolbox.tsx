@@ -16,7 +16,7 @@ export default function Toolbox({ document, role, onRefetch }: Readonly<{ docume
 	return (<div className='fixed w-2/3 flex justify-between items-center bg-white z-10 p-3 rounded'>
 		<section>
 			<div className="flex space-x-2 items-center">
-				<Visiblity docId={document._id} visibility={document.visibility} onRefetch={onRefetch} />
+				<Visiblity docId={document._id} visibility={document.visibility} role={role} onRefetch={onRefetch} />
 				<Naming docId={document._id} current={document.title} />
 			</div>
 		</section>
