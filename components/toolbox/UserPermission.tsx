@@ -7,9 +7,9 @@ import { changePermission } from "@/lib/update"
 
 import Image from "next/image"
 
-export default function UserPermission({ position, permission, role }: Readonly<{ position: number, permission: Permission, role: CollabRole }>) {
+export default function UserPermission({ position, permission, owner }: Readonly<{ position: number, permission: Permission, owner:boolean }>) {
   const [user, setUser] = useState<User>()
-  const [userRole, setUserRole] = useState<CollabRole>(permission.role)
+  const [role, setRole] = useState<CollabRole>(permission.role)
   const [loading, setLoading] = useState<boolean>(false)
   const { catchError } = useError()
 
@@ -22,7 +22,7 @@ export default function UserPermission({ position, permission, role }: Readonly<
 
   const roleChangeHandler = (event: SelectChangeEvent) => {
     const changed = event.target.value as CollabRole
-    setUserRole(changed)
+    setRole(changed)
     setLoading(true)
     catchError(async () => {
       await changePermission({ permissionId: permission._id, role: changed })
@@ -44,7 +44,7 @@ export default function UserPermission({ position, permission, role }: Readonly<
       </section>
       <FormControl sx={{ width: 120 }} size='small'>
         <InputLabel>Role</InputLabel>
-        <Select value={userRole} label='Role' onChange={roleChangeHandler} disabled={role !== 'owner'}>
+        <Select value={role} label='Role' onChange={roleChangeHandler} disabled={!owner}>
           <MenuItem value={'viewer'}>Viewer</MenuItem>
           <MenuItem value={'editor'}>Editor</MenuItem>
           <MenuItem value={'owner'}>Owner</MenuItem>
