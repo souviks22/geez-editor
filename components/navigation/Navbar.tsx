@@ -23,7 +23,7 @@ export default function Navbar() {
       />
     </Link>
     {status === 'authenticated' ?
-      <section className='relative cursor-pointer' onClick={() => setMenu(menu => !menu)}>
+      <section className='relative cursor-pointer flex justify-end lg:justify-start' onClick={() => setMenu(menu => !menu)}>
         <Image
           src={session.user?.image || '/user.png'}
           alt='User'
@@ -32,7 +32,7 @@ export default function Navbar() {
           className='rounded-full'
         />
         {menu &&
-          <div className='w-32 bg-white absolute rounded my-3 tran'>
+          <div className='w-32 bg-white absolute rounded my-3 -bottom-14'>
             <p onClick={() => signOut()} className='bg-sky-50 hover:bg-blue-100 px-5 py-2 cursor-pointer transition-colors duration-200 rounded shadow'>
               Sign Out
             </p>
