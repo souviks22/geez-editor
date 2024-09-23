@@ -45,7 +45,7 @@ export default function SlateEditor({ sharedType, provider, document, role, onRe
     <Cursors>
       <Avatars />
       <Editable
-        className="w-[800px] min-h-[1120px] bg-white px-24 py-20 outline-none"
+        className="lg:w-[800px] min-h-[1120px] bg-white px-5 lg:px-24 py-3 lg:py-20 outline-none"
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         onKeyDown={editor.hotkeyHandler}

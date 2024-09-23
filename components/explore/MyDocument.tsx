@@ -38,13 +38,13 @@ export default function MyDocument({ document }: Readonly<{ document: Document }
   }, [cycles])
 
   return (<aside
-    className='w-full flex items-center cursor-pointer pb-5 hover:scale-105 transition-transform border-b border-crystal-blue'
+    className='w-full flex flex-row-reverse lg:flex-row justify-between lg:justify-start items-center cursor-pointer pb-5 hover:scale-105 transition-transform border-b border-crystal-blue'
     onClick={() => router.push(`documents/${document._id}`)}
   >
-    <div className='h-36 w-28 flex bg-slate-50 text-center text-sm justify-center items-center shadow-md p-2 hover:scale-105'>
+    <div className='h-24 lg:h-36 w-20 lg:w-28 flex bg-slate-50 text-center text-sm justify-center items-center shadow-md p-2 hover:scale-105'>
       {document.title}
     </div>
-    <section className='text-sm px-20'>
+    <section className='text-sm lg:px-20'>
       <div className='flex items-center ml-2 py-2'>
         {owners.slice(0, Math.min(owners.length, VIEW_LIMIT)).map((owner, i) =>
           <Image
@@ -63,7 +63,7 @@ export default function MyDocument({ document }: Readonly<{ document: Document }
         }
       </div>
       <div className='text-lg'>{document.title}</div>
-      <div className='text-base pb-3'>Authored by {owners.map(owner => owner.name).join(', ')}</div>
+      <div className='lg:text-base lg:pb-3'>Owned by {owners.map(owner => owner.name).join(', ')}</div>
       <div>Last updated {period} ago</div>
       <div>Created on {`${creationDate}, ${creationYear}`}</div>
     </section>

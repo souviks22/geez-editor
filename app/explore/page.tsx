@@ -38,7 +38,7 @@ export default function Explore() {
   }, [session?.user])
 
   return (<main className='flex min-h-screen flex-col items-center justify-evenly'>
-    <section className='w-full bg-slate-100 p-10 flex flex-col justify-center items-center my-20'>
+    <section className='w-full bg-slate-100 p-10 flex flex-col justify-center items-center mt-20 lg:mb-20'>
       <p className='p-5'>Create a new document</p>
       <div
         className='block w-52 h-72 bg-white cursor-pointer hover:shadow'
@@ -49,9 +49,9 @@ export default function Explore() {
         </aside>
       </div>
     </section>
-    <section className='w-full px-32 py-10'>
+    <section className='w-full p-5 lg:px-32 lg:py-10'>
       <span className='text-xl'>My Documents</span>
-      <div className='flex flex-col items-center min-h-96 p-10 gap-10'>
+      <div className='flex flex-col items-center min-h-96 py-5 lg:p-10 gap-10'>
         {documents.length ?
           documents.map(document => <MyDocument key={document._id} document={document} />)
           :

@@ -40,7 +40,8 @@ export default function UserPermission({ position, permission, owner }: Readonly
           height={30}
           className='rounded-full'
         />}
-        <p>{position ? `${user?.name} (${user?.email.split('@')[0]})` : 'You'}</p>
+        <p className='hidden lg:block'>{position ? `${user?.name} (${user?.email.split('@')[0]})` : 'You'}</p>
+        <p className='block lg:hidden'>{position ? user && user.name.split(' ')[0] : 'You'}</p>
       </section>
       <FormControl sx={{ width: 120 }} size='small'>
         <InputLabel>Role</InputLabel>

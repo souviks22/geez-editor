@@ -34,12 +34,14 @@ export default function Share({ docId, visibility, owner }: Readonly<{ docId: st
       onClick={() => setShare(true)}
     >
       <IoMdShare size={20} />
-      <p className='text-sm absolute z-10 bg-slate-100 group-hover:block hidden rounded p-1 left-6'>Share</p>
+      <p className='text-sm absolute z-10 bg-slate-100 lg:group-hover:block hidden rounded p-1 left-6'>Share</p>
     </div>
     {share && <section className='absolute w-full h-screen top-0 left-0 flex justify-center items-center'>
-      <div className={`${isCustomShareAllowed && 'w-9/12'} relative flex flex-col bg-slate-100 rounded-xl p-10 space-y-5`}>
+      <div className={`${isCustomShareAllowed && 'w-full lg:w-9/12'} relative flex flex-col bg-slate-100 rounded-xl p-5 lg:p-10 space-y-5 mb-52 lg:mb-0`}>
         {isCustomShareAllowed ? <>
-          <CopyLink className='absolute top-5 right-5' />
+          <section className='flex justify-end'>
+            <CopyLink />
+          </section>
           <section className='relative flex flex-col'>
             {focus && <label className='absolute bottom-9'>Email</label>}
             <input type='email' value={email} placeholder={focus ? '' : 'Enter his/her email'}
@@ -49,7 +51,7 @@ export default function Share({ docId, visibility, owner }: Readonly<{ docId: st
               className={`${emailError && 'outline-red-500'} px-2 py-1 rounded`}
             />
           </section>
-          <section className='flex items-center space-x-3'>
+          <section className='flex flex-col lg:flex-row items-center lg:space-x-3 space-y-2 lg:space-y-0'>
             <FormControl sx={{ width: 120 }} size='small'>
               <Select value={role} onChange={event => setRole(event.target.value as CollabRole)}>
                 <MenuItem value={'viewer'}>Viewer</MenuItem>
@@ -64,14 +66,14 @@ export default function Share({ docId, visibility, owner }: Readonly<{ docId: st
               }
             </p>
           </section>
-          <section className='flex text-sm space-x-2 justify-evenly pt-5 transition-colors'>
+          <section className='flex text-sm space-x-2 justify-evenly lg:pt-5 transition-colors'>
             <button className='bg-aqua-green opacity-80 hover:opacity-100 w-full p-2 rounded' onClick={shareHandler}>Share</button>
             <button className='bg-red-400 opacity-80 hover:opacity-100 w-20 p-2 rounded' onClick={() => setShare(false)}>Cancel</button>
           </section>
         </> : <>
           <section className='flex space-x-2 items-center'>
             <p>Share this document by this link!</p>
-            <CopyLink className='text-xl' />
+            <CopyLink />
           </section>
           <section className='text-sm text-center'>
             <button className='bg-aqua-green opacity-80 hover:opacity-100 w-32 p-2 rounded' onClick={() => setShare(false)}>Close</button>

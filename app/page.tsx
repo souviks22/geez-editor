@@ -11,7 +11,7 @@ export default function Home() {
     localStorage.removeItem(process.env.NEXT_PUBLIC_REDIRECT_KEY as string)
     if (redirect) router.replace(redirect)
   }, [])
-  return (<main className='flex justify-evenly items-center min-h-screen bg-gradient-home from-aqua-green from-20% to-crystal-blue backdrop-blur'>
+  return (<main className='flex flex-col-reverse lg:flex-row justify-center lg:justify-evenly items-center min-h-screen bg-gradient-home from-aqua-green from-20% to-crystal-blue backdrop-blur'>
     <div className='text-center'>
       <div className='mb-10'>
         <h1 className='text-9xl mb-10'>Geez</h1>

@@ -5,7 +5,7 @@ export default function Avatars() {
   const others = useOthers()
   const users = [...others, current]
 
-  return (<div className='flex py-3 mt-10'>
+  return (<div className='flex justify-center lg:justify-start py-3 mt-28 lg:mt-10'>
     {users.map((user, i) => (user?.info &&
       <div
         key={i}

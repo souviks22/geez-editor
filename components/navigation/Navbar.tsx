@@ -12,7 +12,7 @@ export default function Navbar() {
   const [menu, setMenu] = useState<boolean>(false)
   const { active, toggleFallback } = useContext(authContext)
 
-  return (<div className={`flex justify-between items-center fixed z-10 w-full px-28 py-2 ${!active && 'backdrop-blur'}`}>
+  return (<div className={`flex justify-between items-center fixed z-10 w-full px-5 lg:px-28 py-2 ${!active && 'backdrop-blur'}`}>
     <Link href={'/'} className='hover:bg-sky-50 p-1 rounded'>
       <Image
         src={'/geez-logo.png'}
@@ -27,8 +27,8 @@ export default function Navbar() {
         <Image
           src={session.user?.image || '/user.png'}
           alt='User'
-          width={40}
-          height={40}
+          width={50}
+          height={50}
           className='rounded-full'
         />
         {menu &&

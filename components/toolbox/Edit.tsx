@@ -10,8 +10,9 @@ export default function Edit({ role }: Readonly<{ role: CollabRole }>) {
   const { catchError } = useError()
   const editingHandler = catchError(async () => {
     if (role === 'viewer') throw new Error('You are not authorized to edit.')
-    setEdit(true)
-    ReactEditor.focus(editor)
+    if (edit) ReactEditor.blur(editor)
+    else ReactEditor.focus(editor)
+    setEdit(edit => !edit)
   }, () => setEdit(false))
 
   return (<div
@@ -19,6 +20,6 @@ export default function Edit({ role }: Readonly<{ role: CollabRole }>) {
     onClick={editingHandler}
   >
     {edit ? <MdEditDocument size={20} /> : <MdEdit size={20} />}
-    <p className='text-sm absolute z-10 bg-slate-100 group-hover:block hidden rounded p-1 left-6'>Edit</p>
+    <p className='text-sm absolute z-10 bg-slate-100 lg:group-hover:block hidden rounded p-1 left-6'>Edit</p>
   </div>)
 }

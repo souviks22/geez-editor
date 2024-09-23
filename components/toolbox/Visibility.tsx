@@ -37,7 +37,7 @@ export default function Visiblity({ docId, visibility, owner, onRefetch }: Reado
       {visibility}
     </span>
     {confirm && <section className='absolute w-full h-screen top-0 left-0 flex justify-center items-center'>
-      <div className='w-4/5 bg-slate-100 text-center rounded-xl p-10 space-y-5'>
+      <div className='w-full lg:w-4/5 bg-slate-100 text-center rounded-xl p-5 lg:p-10 space-y-5 mb-52 lg:mb-0'>
         <section>
           <p className='text-xl'>Settings</p>
           {!owner && <p className='text-sm text-center text-yellow-500'>
