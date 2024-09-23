@@ -1,18 +1,19 @@
-import type { NextAuthOptions } from "next-auth"
+import { NextAuthOptions } from "next-auth"
+import { request } from "./api"
 import GoogleProvider from "next-auth/providers/google"
 import GithubProvider from "next-auth/providers/github"
 
-import { request } from "./api"
+const isProduction = process.env.NODE_ENV === 'production'
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
     }),
     GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      clientId: isProduction ? process.env.GITHUB_CLIENT_ID as string : process.env.GITHUB_DEV_CLIENT_ID as string,
+      clientSecret: isProduction ? process.env.GITHUB_CLIENT_SECRET as string : process.env.GITHUB_DEV_CLIENT_SECRET as string
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
