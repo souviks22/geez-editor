@@ -14,7 +14,7 @@ export default function Home() {
   return (<main className='flex flex-col-reverse lg:flex-row justify-center lg:justify-evenly items-center min-h-screen bg-gradient-home from-aqua-green from-20% to-crystal-blue backdrop-blur'>
     <div className='text-center'>
       <div className='mb-10'>
-        <h1 className='text-9xl mb-10'>Geez</h1>
+        <h1 className='text-5xl lg:text-9xl mb-5 lg:mb-10'>Geez</h1>
         <section>
           <p className='text-sm'>A real-time collaboration tool</p>
           <p className='text-sm'>Create documents and share with your team</p>
@@ -26,7 +26,7 @@ export default function Home() {
         Get Started
       </Link>
     </div>
-    <div>
+    <div className='h-52 w-52 lg:h-auto lg:w-auto'>
       <Image
         src={'/geez-logo.png'}
         alt='Geez'

@@ -8,7 +8,7 @@ export default function Authentication() {
   const stopPropagationHandler = (event: React.MouseEvent) => {
     event.stopPropagation()
   }
-  return (<div className='bg-slate-50 relative text-center shadow rounded-2xl px-20 pb-10 overflow-hidden' onClick={stopPropagationHandler}>
+  return (<div className='bg-slate-50 relative text-center shadow rounded-2xl p-5 lg:px-20 lg:pb-10 overflow-hidden' onClick={stopPropagationHandler}>
     {loading && <div className='block absolute left-0 bg-blue-600 z-20 h-1 animate-loading-bar transition-all' />}
     <section className='w-full flex justify-center items-center'>
       <Image

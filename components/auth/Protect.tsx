@@ -9,7 +9,7 @@ export default function Protect({ onClick = () => { } }: Readonly<{ onClick?: ()
     {status === 'loading' ? <Loading />
       : status === 'unauthenticated' &&
       <div
-        className='w-full h-full absolute z-10 flex min-h-screen flex-col items-center justify-between p-24 backdrop-blur'
+        className='w-full h-full absolute z-10 flex min-h-screen flex-col items-center justify-between p-5 lg:p-24 backdrop-blur'
         onClick={onClick}
       >
         <Authentication />
